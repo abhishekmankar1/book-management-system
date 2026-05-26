@@ -1,18 +1,11 @@
 {
   "books": [
     {
-      "id": 2,
-      "title": "The Alchemist",
-      "author": "Paulo Coelho",
-      "genre": "Fiction",
-      "year": 1988
-    },
-    {
-      "title": "shivaji maharaj",
-      "author": "abhishek",
-      "genre": "jh",
-      "year": "2010",
-      "id": 3
+      "id": 1,
+      "title": "Atomic Habits",
+      "author": "James Clear",
+      "genre": "Self Help",
+      "year": 2018
     }
   ]
 }
