@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import API from "../services/api";
 
 function AddBook() {
@@ -13,7 +12,6 @@ function AddBook() {
     year: "",
   });
 
-  // Handle Input Change
   const handleChange = (e) => {
     setBook({
       ...book,
@@ -21,15 +19,11 @@ function AddBook() {
     });
   };
 
-  // Submit Form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await API.post("/books", book);
-
-      alert("Book Added Successfully ✅");
-
+      await API.post("/", book);
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -37,10 +31,10 @@ function AddBook() {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-10 bg-white dark:bg-gray-800 dark:text-white shadow-lg rounded-xl p-8 transition duration-300">
-      <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
-        Add New Book
-      </h2>
+    <div className="max-w-xl mx-auto mt-10 bg-white dark:bg-gray-800 dark:text-white shadow-lg rounded-xl p-8">
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        Add Book
+      </h1>
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <input
@@ -49,18 +43,18 @@ function AddBook() {
           placeholder="Book Title"
           value={book.title}
           onChange={handleChange}
+          className="w-full p-3 border rounded-lg text-black"
           required
-          className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 
         <input
           type="text"
           name="author"
-          placeholder="Author Name"
+          placeholder="Author"
           value={book.author}
           onChange={handleChange}
+          className="w-full p-3 border rounded-lg text-black"
           required
-          className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 
         <input
@@ -69,24 +63,21 @@ function AddBook() {
           placeholder="Genre"
           value={book.genre}
           onChange={handleChange}
+          className="w-full p-3 border rounded-lg text-black"
           required
-          className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 
         <input
           type="number"
           name="year"
-          placeholder="Publication Year"
+          placeholder="Year"
           value={book.year}
           onChange={handleChange}
+          className="w-full p-3 border rounded-lg text-black"
           required
-          className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 
-        <button
-          type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition"
-        >
+        <button className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">
           Add Book
         </button>
       </form>

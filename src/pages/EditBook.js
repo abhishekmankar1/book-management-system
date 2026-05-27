@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
 import API from "../services/api";
 
 function EditBook() {
   const { id } = useParams();
-
   const navigate = useNavigate();
 
   const [book, setBook] = useState({
@@ -15,23 +13,19 @@ function EditBook() {
     year: "",
   });
 
-  // Fetch Single Book
+  useEffect(() => {
+    fetchBook();
+  }, []);
+
   const fetchBook = async () => {
     try {
-      const response = await API.get(`/books/${id}`);
-
-      setBook(response.data);
+      const res = await API.get(`/${id}`);
+      setBook(res.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-// eslint-disable-next-line
-useEffect(() => {
-  fetchBook();
-}, []);
-
-  // Handle Input Change
   const handleChange = (e) => {
     setBook({
       ...book,
@@ -39,15 +33,11 @@ useEffect(() => {
     });
   };
 
-  // Update Book
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await API.put(`/books/${id}`, book);
-
-      alert("Book Updated Successfully ✅");
-
+      await API.put(`/${id}`, book);
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -55,10 +45,10 @@ useEffect(() => {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-10 bg-white dark:bg-gray-800 dark:text-white shadow-lg rounded-xl p-8 transition duration-300">
-      <h2 className="text-3xl font-bold text-center text-green-600 mb-6">
+    <div className="max-w-xl mx-auto mt-10 bg-white dark:bg-gray-800 dark:text-white shadow-lg rounded-xl p-8">
+      <h1 className="text-3xl font-bold mb-6 text-center">
         Edit Book
-      </h2>
+      </h1>
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <input
@@ -67,18 +57,18 @@ useEffect(() => {
           placeholder="Book Title"
           value={book.title}
           onChange={handleChange}
+          className="w-full p-3 border rounded-lg text-black"
           required
-          className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
         />
 
         <input
           type="text"
           name="author"
-          placeholder="Author Name"
+          placeholder="Author"
           value={book.author}
           onChange={handleChange}
+          className="w-full p-3 border rounded-lg text-black"
           required
-          className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
         />
 
         <input
@@ -87,24 +77,21 @@ useEffect(() => {
           placeholder="Genre"
           value={book.genre}
           onChange={handleChange}
+          className="w-full p-3 border rounded-lg text-black"
           required
-          className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
         />
 
         <input
           type="number"
           name="year"
-          placeholder="Publication Year"
+          placeholder="Year"
           value={book.year}
           onChange={handleChange}
+          className="w-full p-3 border rounded-lg text-black"
           required
-          className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
         />
 
-        <button
-          type="submit"
-          className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition"
-        >
+        <button className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700">
           Update Book
         </button>
       </form>

@@ -1,48 +1,34 @@
 import { useEffect, useState } from "react";
-
 import API from "../services/api";
-
 import BookCard from "../components/BookCard";
 import SearchBar from "../components/SearchBar";
-import Loader from "../components/Loader";
 
 function Home() {
   const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(true);
-
   const [search, setSearch] = useState("");
-
-  // Fetch Books
-  const fetchBooks = async () => {
-    try {
-      const response = await API.get("/books");
-
-      setBooks(response.data);
-
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
     fetchBooks();
   }, []);
 
-  // Delete Book
+  const fetchBooks = async () => {
+    try {
+      const res = await API.get("/");
+      setBooks(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const deleteBook = async (id) => {
     try {
-      await API.delete(`/books/${id}`);
-
+      await API.delete(`/${id}`);
       fetchBooks();
     } catch (error) {
       console.log(error);
     }
   };
 
-  // Search Filter
   const filteredBooks = books.filter(
     (book) =>
       book.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -50,19 +36,15 @@ function Home() {
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8 text-black dark:text-white transition duration-300">
+    <div className="max-w-7xl mx-auto px-6 py-8 text-black dark:text-white">
       <SearchBar search={search} setSearch={setSearch} />
 
-      {loading ? (
-        <Loader />
-      ) : filteredBooks.length === 0 ? (
-        <div className="text-center mt-20">
-          <h2 className="text-3xl font-bold text-gray-500">
-            No Books Found 📚
-          </h2>
-        </div>
+      {filteredBooks.length === 0 ? (
+        <h1 className="text-center text-2xl font-bold mt-10">
+          No Books Found
+        </h1>
       ) : (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
           {filteredBooks.map((book) => (
             <BookCard
               key={book.id}
