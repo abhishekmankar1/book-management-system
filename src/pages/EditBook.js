@@ -13,9 +13,9 @@ function EditBook() {
     year: "",
   });
 
-  useEffect(() => {
-    fetchBook();
-  }, []);
+ useEffect(() => {
+  fetchBook();
+}, [id]);
 
   const fetchBook = async () => {
     try {
